@@ -13,4 +13,7 @@ module.exports = (app) => {
 
   //   Route Menampilkan data berdasarkan ID
   app.route("/students/:id").get(Controller.getStudentsById);
+
+  //   Route Mengubah Data Mahasiswa
+  app.route("/students/:id").put(Controller.editStudentsById);
 };

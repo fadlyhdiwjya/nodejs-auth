@@ -43,10 +43,40 @@ exports.getStudentsById = (req, res) => {
   let sql = `SELECT * FROM tbl_mahasiswa WHERE id_mahasiswa = ?`;
   let data = [id];
   db.query(sql, data, (err, rows) => {
-    if (err) throw err;
-    res.json({
-      error: false,
-      result: rows,
-    });
+    console.log(rows.length);
+    if (rows.length <= 0) {
+      res.json({
+        error: true,
+        message: `Sorry, Data dengan id ${id} tidak ditemukan`,
+      });
+    } else {
+      console.log(rows);
+
+      res.json({
+        error: false,
+        result: rows,
+      });
+    }
   });
+};
+
+exports.editStudentsById = (req, res) => {
+  data = {
+    id: req.params.id,
+    nim: req.body.nim,
+    nama: req.body.nama,
+    jurusan: req.body.jurusan,
+  };
+
+  db.query(
+    `UPDATE tbl_mahasiswa SET nim=?, nama=?, jurusan=? WHERE id_mahasiswa=?`,
+    [data.nim, data.nama, data.jurusan, data.id],
+    (err, result, fields) => {
+      if (err) throw err;
+      res.json({
+        error: false,
+        result: result,
+      });
+    }
+  );
 };
