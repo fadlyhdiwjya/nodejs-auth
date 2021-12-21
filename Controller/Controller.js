@@ -36,3 +36,17 @@ exports.getAllStudents = (req, res) => {
     });
   });
 };
+
+exports.getStudentsById = (req, res) => {
+  let id = req.params.id;
+
+  let sql = `SELECT * FROM tbl_mahasiswa WHERE id_mahasiswa = ?`;
+  let data = [id];
+  db.query(sql, data, (err, rows) => {
+    if (err) throw err;
+    res.json({
+      error: false,
+      result: rows,
+    });
+  });
+};

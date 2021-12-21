@@ -10,4 +10,7 @@ module.exports = (app) => {
   //   Route Menampilkan data Mahasiswa
 
   app.route("/students").get(Controller.getAllStudents);
+
+  //   Route Menampilkan data berdasarkan ID
+  app.route("/students/:id").get(Controller.getStudentsById);
 };
