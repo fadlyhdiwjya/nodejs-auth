@@ -1,5 +1,6 @@
 // Import Express
 const express = require("express");
+require("dotenv").config();
 const app = express();
 // Import Body-Parser
 const bodyParser = require("body-parser");
@@ -19,6 +20,7 @@ app.use(morgan("tiny"));
 
 const routes = require("./Routes/router");
 routes(app);
-const port = 3000;
 
-app.listen(port, () => console.log("Server is Running on port :", port));
+app.listen(process.env.APP_PORT, () =>
+  console.log("Server is Running on port :", process.env.APP_PORT)
+);
