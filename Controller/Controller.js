@@ -80,3 +80,19 @@ exports.editStudentsById = (req, res) => {
     }
   );
 };
+
+exports.DeleteStudents = (req, res) => {
+  let id = req.params.id;
+
+  db.query(
+    `DELETE FROM tbl_mahasiswa WHERE id_mahasiswa = ?`,
+    id,
+    (err, rows) => {
+      if (err) throw err;
+      res.json({
+        error: false,
+        result: rows,
+      });
+    }
+  );
+};

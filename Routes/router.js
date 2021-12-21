@@ -16,4 +16,7 @@ module.exports = (app) => {
 
   //   Route Mengubah Data Mahasiswa
   app.route("/students/:id").put(Controller.editStudentsById);
+
+  //   Route Menghapus Data Mahasiswa
+  app.route("/students/:id").delete(Controller.DeleteStudents);
 };
