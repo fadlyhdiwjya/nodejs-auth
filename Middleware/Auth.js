@@ -85,3 +85,9 @@ exports.login = (req, res) => {
     }
   });
 };
+
+exports.halamanDua = (req, res) => {
+  res.json({
+    message: "Hai ini adalah halaman untuk Role 2",
+  });
+};
