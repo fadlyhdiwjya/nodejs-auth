@@ -96,3 +96,23 @@ exports.DeleteStudents = (req, res) => {
     }
   );
 };
+
+exports.Matakuliah = (req, res) => {
+  db.query(
+    `SELECT mahasiswa.id_mahasiswa, mahasiswa.nim, mahasiswa.nama, mahasiswa.jurusan,
+    matakuliah.id_matakuliah, matakuliah.matakuliah, matakuliah.sks FROM tbl_krs krs
+    JOIN tbl_mahasiswa mahasiswa
+    JOIN tbl_matakuliah matakuliah
+    WHERE krs.id_matakuliah = matakuliah.id_matakuliah
+    AND krs.id_mahasiswa = mahasiswa.id_mahasiswa
+    ORDER BY mahasiswa.id_mahasiswa
+`,
+    (err, rows) => {
+      if (err) throw err;
+      res.json({
+        error: false,
+        result: rows,
+      });
+    }
+  );
+};

@@ -8,8 +8,11 @@ module.exports = (app) => {
   app.route("/students").post(Controller.addStudents);
 
   //   Route Menampilkan data Mahasiswa
-
   app.route("/students").get(Controller.getAllStudents);
+
+  //   Route Menampilkan MataKuliah
+
+  app.route("/students/matakuliah").get(Controller.Matakuliah);
 
   //   Route Menampilkan data berdasarkan ID
   app.route("/students/:id").get(Controller.getStudentsById);
