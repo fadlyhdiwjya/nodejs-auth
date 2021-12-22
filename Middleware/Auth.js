@@ -1,6 +1,7 @@
 const connection = require("../Database/connection");
 const mysql = require("mysql");
 const md5 = require("md5");
+const Config = require("../Config/secret");
 const jwt = require("jsonwebtoken");
 const ip = require("ip");
 
@@ -35,6 +36,52 @@ exports.Register = (req, res) => {
       } else {
         res.json({ error: true, message: "Email sudah ada" });
       }
+    }
+  });
+};
+
+// Login
+
+exports.login = (req, res) => {
+  let data = {
+    email: req.body.email,
+    password: req.body.password,
+  };
+
+  //  Validasi Email
+
+  let cek = `SELECT * FROM tbl_users WHERE email = ?`;
+  let table = [data.email];
+
+  connection.query(cek, table, (err, rows) => {
+    if (err) throw err;
+
+    if (rows.length == 1) {
+      var token = jwt.sign({ rows }, Config.secret, {
+        expiresIn: 1440,
+      });
+
+      //    Cek Users
+      let id_user = rows[0].id_user;
+
+      let data = {
+        id_user: id_user,
+        access_token: token,
+        ip_address: ip.address(),
+      };
+
+      let sql = `INSERT INTO tbl_akses_token (id_user, access_token, ip_address) VALUES ('${data.id_user}', '${data.access_token}', '${data.ip_address}')`;
+      connection.query(sql, (err, rows) => {
+        if (err) throw err;
+        res.json({
+          error: false,
+          message: "Token Berhasil di Generate",
+          token: token,
+          currUser: data.id_user,
+        });
+      });
+    } else {
+      res.json({ error: true, message: "Email atau password salah" });
     }
   });
 };
